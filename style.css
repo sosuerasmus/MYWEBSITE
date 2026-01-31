@@ -29,7 +29,7 @@ body {
    NAVBAR
 =========================== */
 .navbar {
-    display: flex;
+    position: sticky;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 5%;

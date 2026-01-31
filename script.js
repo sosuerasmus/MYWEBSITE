@@ -1,9 +1,42 @@
 let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
 
+// --- NAVIGATION & MOBILE MENU LOGIC ---
+document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    if (menuToggle && navLinks) {
+        // Toggle menu when clicking the hamburger icon
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevents immediate closing from the document listener below
+            navLinks.classList.toggle('show');
+        });
+
+        // Close menu when clicking anywhere else on the screen
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+                navLinks.classList.remove('show');
+            }
+        });
+
+        // Close menu when a link inside is clicked (useful for one-page navigation)
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => navLinks.classList.remove('show'));
+        });
+    }
+
+    // Initialize UI
+    updateCartUI();
+});
+
+// --- CART LOGIC ---
 window.addToCart = function(product) {
-    const item = cartItems.find(i => i.name === product.name); // Using name as unique key
-    if (item) { item.quantity += 1; } 
-    else { cartItems.push({ ...product, quantity: 1 }); }
+    const item = cartItems.find(i => i.name === product.name);
+    if (item) { 
+        item.quantity += 1; 
+    } else { 
+        cartItems.push({ ...product, quantity: 1 }); 
+    }
     
     localStorage.setItem('cart', JSON.stringify(cartItems));
     updateCartUI();
@@ -36,13 +69,23 @@ window.updateCartUI = function() {
     if(totalDisp) totalDisp.textContent = `Total: GH₵${totalPrice.toFixed(2)}`;
 };
 
+// --- UTILITIES ---
 function showToast(msg) {
     const toast = document.getElementById('toast');
     if(!toast) return;
     toast.textContent = msg;
     toast.style.display = "block";
     toast.style.opacity = '1';
-    setTimeout(() => { toast.style.opacity = '0'; }, 3000);
-}
+    
+    // Shake the cart icon if it exists
+    const cartIcon = document.querySelector('.cart-icon');
+    if(cartIcon) {
+        cartIcon.classList.add('shake');
+        setTimeout(() => cartIcon.classList.remove('shake'), 300);
+    }
 
-document.addEventListener('DOMContentLoaded', updateCartUI);
+    setTimeout(() => { 
+        toast.style.opacity = '0';
+        setTimeout(() => { toast.style.display = "none"; }, 400); 
+    }, 3000);
+}

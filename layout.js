@@ -1,6 +1,9 @@
 const headerHTML = `
 <nav class="navbar">
     <div class="logo">Rockson <span>Enterprise</span></div>
+    
+    <button class="menu-toggle" id="mobile-menu-btn" style="display:none; background:none; border:none; font-size:1.8rem; cursor:pointer;">☰</button>
+
     <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="shop.html">Shop</a></li>
@@ -23,7 +26,6 @@ const headerHTML = `
     </div>
 </nav>`;
 
-// RESTORED: The missing footerHTML variable
 const footerHTML = `
 <div class="footer-content" style="text-align: center; padding: 40px 20px; width: 100%; background: #f9f9f9; border-top: 1px solid #eee; margin-top: 50px;">
     <p style="margin-bottom: 10px;">&copy; 2026 <strong>Rockson Enterprise</strong>. All rights reserved.</p>
@@ -121,9 +123,22 @@ window.checkoutWhatsApp = function() {
 document.addEventListener("DOMContentLoaded", () => {
     // Header
     const header = document.querySelector('header');
-    if(header) header.innerHTML = headerHTML;
+    if(header) {
+        header.innerHTML = headerHTML;
+        
+        // ADDED: Logic to make the mobile menu work
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        if(menuBtn && navLinks) {
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navLinks.classList.toggle('show');
+            });
+            document.addEventListener('click', () => navLinks.classList.remove('show'));
+        }
+    }
     
-    // Footer - This will now work because footerHTML is defined!
+    // Footer
     const footer = document.querySelector('footer');
     if(footer) footer.innerHTML = footerHTML;
     

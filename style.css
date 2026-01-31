@@ -1,5 +1,5 @@
 /* ===========================
-   GLOBAL STYLES
+    GLOBAL STYLES
 =========================== */
 * {
     box-sizing: border-box;
@@ -24,7 +24,7 @@ body {
 }
 
 /* ===========================
-   NAVBAR (The Fix is here)
+    NAVBAR
 =========================== */
 .navbar {
     display: flex;
@@ -62,7 +62,28 @@ body {
     transition: all 0.25s ease;
 }
 
-.menu-toggle {
+/* CART DROPDOWN STYLING (Fixed for Layout.js) */
+.cart-dropdown {
+    display: none; /* Hidden by default */
+    position: absolute;
+    right: 0;
+    top: 50px;
+    width: 300px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    z-index: 2000;
+    cursor: default;
+}
+
+.cart-dropdown.show {
+    display: block !important; /* Shows when clicked via layout.js */
+}
+
+/* Updated selector to match both possible class/ID names */
+.menu-toggle, #mobile-menu-btn {
     display: none; /* Hidden on desktop */
     font-size: 1.8rem;
     cursor: pointer;
@@ -73,8 +94,8 @@ body {
 
 /* MOBILE NAVIGATION FIX */
 @media (max-width: 768px) {
-    .menu-toggle {
-        display: block; /* Show hamburger on mobile */
+    .menu-toggle, #mobile-menu-btn {
+        display: block !important; /* Show hamburger on mobile */
     }
 
     .nav-links {
@@ -88,10 +109,11 @@ body {
         padding: 20px;
         box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         gap: 15px;
+        z-index: 1001;
     }
 
     .nav-links.show {
-        display: flex; /* Toggle this class via JS */
+        display: flex !important; /* Toggle this class via JS */
     }
 
     .nav-links a {
@@ -101,7 +123,7 @@ body {
 }
 
 /* ===========================
-   HERO & PHONE SLIDER
+    HERO & PHONE SLIDER
 =========================== */
 .hero {
     height: 50vh;
@@ -141,7 +163,7 @@ body {
 }
 
 /* ===========================
-   FILTER BUTTONS (Pill Shape)
+    FILTER BUTTONS (Pill Shape)
 =========================== */
 .filter-section {
     padding: 2rem 5%;
@@ -172,7 +194,7 @@ body {
 }
 
 /* ===========================
-   PRODUCT GRID
+    PRODUCT GRID
 =========================== */
 .product-grid {
     display: grid;
@@ -196,7 +218,7 @@ body {
 }
 
 /* ===========================
-   FOOTER
+    FOOTER
 =========================== */
 footer {
     background: var(--dark);
